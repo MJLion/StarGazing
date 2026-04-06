@@ -236,7 +236,7 @@ footer p {
 /* New Arrivals Section */
 .new-arrivals {
     display: flex;
-    background: url('D:/Documents/Web Dev projects/Stargazing/Images/star-bg.jpg');
+    background: url('Images/star-bg.jpg');
     background-size: cover;
     height: 100vh;
     border: 1px solid white;
@@ -312,7 +312,7 @@ footer p {
 .top-sec {
     height: 250px;
     width: 100%;
-    background-image: url('D:/Documents/Web Dev projects/Stargazing/Images/star-bg.jpg');
+    background-image: url('star-bg.jpg');
     /*border: 2px solid red;*/
     margin: 0px;
     /*display: flex;
