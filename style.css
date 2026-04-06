@@ -7,7 +7,7 @@ html, body {
 body {
     height: 100%;
     margin: 0;
-    background-image: url('D:/Documents/Web Dev projects/Stargazing/Images/star-bg.jpg');
+    background-image: url('Images/star-bg.jpg');
     overflow: auto;
     
 }
@@ -16,7 +16,7 @@ body {
     border: solid black 2px;
     height: 800px;
     width: 100%;
-    background: url('D:/Documents/Web Dev projects/Stargazing/star-background.jpg');
+    background: url('star-background.jpg');
     background-size: cover;
     background-position: center;
     position: relative;
