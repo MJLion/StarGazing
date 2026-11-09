@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StarGazing — Wear the Wonder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void: #0d0e1a;
+    --void-deep: #07070f;
+    --gold: #f2b632;
+    --rust: #e0502a;
+    --teal: #1f7a72;
+    --cream: #f5efe0;
+    --dim: #9a97b0;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--void);
+    color: var(--cream);
+    font-family:'Nunito', sans-serif;
+    overflow-x:hidden;
+  }
+  ::selection{ background: var(--gold); color: var(--void-deep); }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; }
+
+  .display{ font-family:'Bungee', cursive; text-transform:uppercase; }
+  .mono{ font-family:'Space Mono', monospace; }
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 5vw;
+    background: linear-gradient(var(--void) 55%, transparent);
+  }
+  .nav-brand{ display:flex; align-items:center; gap:10px; }
+  .nav-brand svg{ width:38px; height:38px; }
+  .nav-brand span{ font-family:'Bungee', cursive; font-size:16px; letter-spacing:0.03em; }
+  .nav-links{ display:flex; gap:28px; }
+  .nav-links a{ font-size:13px; font-weight:700; color:var(--dim); transition:color .2s; }
+  .nav-links a:hover{ color:var(--cream); }
+  .nav-links a:focus-visible{ outline:2px solid var(--gold); outline-offset:5px; border-radius:3px; }
+
+  /* HERO */
+  .hero{
+    position:relative; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: 130px 5vw 70px;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 15%, rgba(31,122,114,0.25), transparent 60%),
+      var(--void);
+    overflow:hidden;
+  }
+  .night-sky{
+    position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none;
+  }
+  .night-sky .star{
+    position:absolute; border-radius:50%; background:var(--cream);
+    animation: twinkle 3.6s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%, 100%{ opacity:0.15; }
+    50%{ opacity:1; }
+  }
+  .night-sky .shooting-star{
+    position:absolute; height:2px; border-radius:2px;
+    background: linear-gradient(90deg, transparent, var(--cream) 70%, #fff);
+    filter: drop-shadow(0 0 5px rgba(245,239,224,0.9));
+    opacity:0;
+    animation: shoot 5s linear infinite;
+  }
+  @keyframes shoot{
+    0%{ opacity:0; transform: translate(0,0) rotate(135deg); }
+    4%{ opacity:1; }
+    22%{ opacity:1; transform: translate(-320px,220px) rotate(135deg); }
+    26%{ opacity:0; transform: translate(-340px,236px) rotate(135deg); }
+    100%{ opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .night-sky .star{ animation:none; opacity:0.6; }
+    .night-sky .shooting-star{ display:none; }
+  }
+  .hero > *:not(.night-sky){ position:relative; z-index:2; }
+  .badge-wrap{ position:relative; width:min(360px,72vw); margin-bottom:34px; }
+  .spark{ position:absolute; opacity:0.9; }
+  .hero-title{ font-size:clamp(28px,4vw,42px); margin-bottom:16px; letter-spacing:0.01em; }
+  .hero-title .accent{ color:var(--gold); }
+  .hero-sub{ font-size:16px; color:var(--dim); max-width:480px; line-height:1.6; margin-bottom:34px; font-weight:600; }
+  .cta-row{ display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .btn{
+    font-size:13px; font-weight:800; padding:15px 28px; border-radius:8px;
+    border:2px solid var(--gold); background:var(--gold); color:var(--void-deep);
+    cursor:pointer; transition: all .2s; text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .btn:hover{ background:transparent; color:var(--gold); }
+  .btn:focus-visible{ outline:2px solid var(--cream); outline-offset:3px; }
+  .btn.alt{ border-color:var(--teal); background:transparent; color:var(--teal); }
+  .btn.alt:hover{ background:var(--teal); color:var(--void-deep); }
+
+  /* MARQUEE */
+  .marquee{
+    border-top:2px solid var(--void-deep); border-bottom:2px solid var(--void-deep);
+    background: var(--gold); color:var(--void-deep);
+    overflow:hidden; white-space:nowrap; padding:12px 0;
+  }
+  .marquee-track{
+    display:inline-block; padding-left:100%;
+    animation: scroll 32s linear infinite;
+    font-family:'Space Mono', monospace; font-size:13px; font-weight:700;
+  }
+  .marquee-track span{ margin:0 28px; }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-100%);} }
+  @media (prefers-reduced-motion: reduce){ .marquee-track{ animation:none; padding-left:2%; } }
+
+  /* SECTIONS / COLLECTIONS */
+  .section{ padding: 100px 5vw; }
+  .section-head{ text-align:center; margin-bottom:56px; }
+  .section-label{ font-family:'Space Mono'; font-size:12px; color:var(--gold); letter-spacing:0.15em; margin-bottom:10px; }
+  .section-title{ font-size:clamp(26px,3.4vw,40px); }
+  .section-sub{ color:var(--dim); font-weight:600; max-width:520px; margin:14px auto 0; font-size:14.5px; line-height:1.6; }
+
+  .collection{ margin-bottom:90px; }
+  .collection-tag{
+    display:inline-flex; align-items:center; gap:10px; margin-bottom:26px;
+    font-size:12px; letter-spacing:0.1em; font-weight:800; text-transform:uppercase;
+  }
+  .collection-tag .dot{ width:10px; height:10px; border-radius:50%; }
+
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .card{
+    border-radius:16px; padding:22px; position:relative;
+    background: rgba(245,239,224,0.03); border:1px solid rgba(245,239,224,0.08);
+    transition: transform .3s ease, border-color .3s ease;
+  }
+  .card:hover{ transform: translateY(-6px); }
+  .card-visual{
+    width:100%; aspect-ratio:1/1; border-radius:12px; margin-bottom:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card-name{ font-size:16px; font-weight:800; margin-bottom:4px; }
+  .card-meta{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--dim); font-weight:700; }
+
+  /* ASTRONOMY (default) */
+  .col-astronomy .card{ background:rgba(31,122,114,0.06); border-color:rgba(242,182,50,0.15); }
+  .col-astronomy .card:hover{ border-color:var(--gold); }
+  .col-astronomy .card-visual{ background: radial-gradient(circle at 40% 30%, rgba(242,182,50,0.12), transparent 70%); }
+  .col-astronomy .card-price{ color:var(--gold); }
+
+  /* KIDS — locally punchier */
+  .col-kids{ background: linear-gradient(180deg, rgba(255,62,165,0.06), transparent); border-radius:28px; padding:50px 5vw; }
+  .col-kids .card{ background:rgba(255,255,255,0.03); border-color:rgba(255,62,165,0.2); }
+  .col-kids .card:hover{ border-color:#ff3ea5; }
+  .col-kids .card-visual{ background: radial-gradient(circle at 40% 30%, rgba(255,62,165,0.15), transparent 70%); }
+  .col-kids .card-price{ color:#ff3ea5; }
+
+  /* WISH — bolder */
+  .col-wish .card{ background:rgba(224,80,42,0.06); border-color:rgba(224,80,42,0.2); }
+  .col-wish .card:hover{ border-color:var(--rust); }
+  .col-wish .card-visual{ background: radial-gradient(circle at 40% 30%, rgba(224,80,42,0.15), transparent 70%); }
+  .col-wish .card-price{ color:var(--rust); }
+
+  /* MAKE A WISH STARFIELD */
+  .starfield-section{
+    position:relative; padding:120px 5vw; text-align:center;
+    background:
+      radial-gradient(1px 1px at 10% 20%, rgba(245,239,224,0.5), transparent),
+      radial-gradient(1px 1px at 80% 15%, rgba(245,239,224,0.4), transparent),
+      radial-gradient(1px 1px at 30% 70%, rgba(245,239,224,0.5), transparent),
+      radial-gradient(1px 1px at 65% 85%, rgba(245,239,224,0.4), transparent),
+      radial-gradient(1px 1px at 90% 60%, rgba(245,239,224,0.4), transparent),
+      radial-gradient(ellipse 70% 50% at 50% 40%, rgba(242,182,50,0.08), var(--void-deep) 70%);
+  }
+  .starfield{
+    position:relative; max-width:720px; height:280px; margin:50px auto 0;
+  }
+  .wish-star{
+    position:absolute; background:none; border:none; cursor:pointer; padding:8px;
+    color: var(--gold); transition: transform .2s;
+  }
+  .wish-star:hover, .wish-star:focus-visible{ transform: scale(1.3); outline:none; }
+  .wish-star svg{ width:22px; height:22px; filter: drop-shadow(0 0 6px rgba(242,182,50,0.6)); }
+  .wish-fact{
+    margin-top:26px; min-height:50px; font-size:15px; color:var(--cream); font-weight:600;
+    max-width:460px; margin-left:auto; margin-right:auto; opacity:0; transition:opacity .3s;
+  }
+  .wish-fact.show{ opacity:1; }
+
+  /* STORY SPLIT */
+  .split{
+    display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center;
+    padding:100px 5vw; background:var(--void-deep);
+  }
+  .split-title{ font-size:clamp(24px,3vw,36px); line-height:1.15; margin-bottom:22px; }
+  .split-title .accent{ color:var(--teal); }
+  .split p{ color:var(--dim); font-weight:600; line-height:1.75; font-size:15px; margin-bottom:16px; max-width:460px; }
+
+  /* FOOTER */
+  footer{ padding:60px 5vw 40px; }
+  .foot-top{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px; margin-bottom:40px; align-items:center; }
+  .foot-brand{ display:flex; align-items:center; gap:12px; }
+  .foot-brand svg{ width:46px; height:46px; }
+  .foot-brand span{ font-family:'Bungee', cursive; font-size:20px; }
+  .foot-links{ display:flex; gap:50px; flex-wrap:wrap; }
+  .foot-col h4{ font-family:'Space Mono'; font-size:11px; color:var(--gold); letter-spacing:0.12em; margin-bottom:14px; }
+  .foot-col a{ display:block; font-size:14px; color:var(--dim); margin-bottom:10px; font-weight:600; transition:color .2s; }
+  .foot-col a:hover{ color:var(--cream); }
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-family:'Space Mono'; font-size:11px; color:var(--dim);
+    border-top:1px solid rgba(245,239,224,0.08); padding-top:22px;
+  }
+
+  @media (max-width: 900px){
+    .grid{ grid-template-columns:repeat(2,1fr); }
+    .split{ grid-template-columns:1fr; gap:36px; }
+    .nav-links{ display:none; }
+  }
+  @media (max-width: 560px){
+    .grid{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="none" stroke="#f2b632" stroke-width="2"/><ellipse cx="30" cy="30" rx="24" ry="8" fill="none" stroke="#1f7a72" stroke-width="1.5" transform="rotate(-14 30 30)"/><circle cx="30" cy="30" r="10" fill="#f2b632"/></svg>
+    <span>STARGAZING</span>
+  </div>
+  <div class="nav-links">
+    <a href="#astronomy">Astronomy Edition</a>
+    <a href="#kids">Little Explorers</a>
+    <a href="#wish">Wish Edition</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="night-sky" id="nightSky"></div>
+  <div class="badge-wrap">
+    <svg viewBox="0 0 400 400" width="100%">
+      <defs>
+        <pattern id="stipple" width="5" height="5" patternUnits="userSpaceOnUse">
+          <circle cx="2.5" cy="2.5" r="0.9" fill="#0d0e1a" opacity="0.5"/>
+        </pattern>
+        <radialGradient id="sphereGrad" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#ffd77a"/>
+          <stop offset="55%" stop-color="#f2b632"/>
+          <stop offset="100%" stop-color="#b5791c"/>
+        </radialGradient>
+        <path id="topArc" d="M 70,200 A 130,130 0 0 1 330,200" fill="none"/>
+      </defs>
+
+      <!-- outer badge rings -->
+      <circle cx="200" cy="200" r="185" fill="var(--void-deep)" stroke="#f2b632" stroke-width="3"/>
+      <circle cx="200" cy="200" r="170" fill="none" stroke="#1f7a72" stroke-width="1.2" opacity="0.7"/>
+
+      <!-- scattered star bursts -->
+      <g fill="#f5efe0">
+        <path d="M100 90 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 Z"/>
+        <path d="M320 110 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 Z"/>
+        <path d="M75 300 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 Z"/>
+        <path d="M330 290 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4 Z" fill="#1f7a72"/>
+      </g>
+
+      <!-- Saturn -->
+      <g transform="translate(200,205)">
+        <ellipse cx="0" cy="0" rx="98" ry="26" fill="none" stroke="#1f7a72" stroke-width="5" transform="rotate(-16)" opacity="0.9"/>
+        <circle cx="0" cy="0" r="62" fill="url(#sphereGrad)"/>
+        <circle cx="0" cy="0" r="62" fill="url(#stipple)"/>
+        <ellipse cx="0" cy="0" rx="98" ry="26" fill="none" stroke="#f2b632" stroke-width="5" transform="rotate(-16)"
+          stroke-dasharray="180 400" stroke-dashoffset="-40"/>
+      </g>
+
+      <!-- arched wordmark -->
+      <text font-family="Bungee" font-size="34" fill="#f5efe0" letter-spacing="2">
+        <textPath href="#topArc" startOffset="50%" text-anchor="middle">STARGAZING</textPath>
+      </text>
+
+      <!-- straight baseline tagline -->
+      <text x="200" y="330" font-family="Space Mono" font-size="15" fill="#f2b632" text-anchor="middle" letter-spacing="4" font-weight="700">MAKE A WISH</text>
+    </svg>
+  </div>
+
+  <h1 class="hero-title">Apparel for anyone who's ever <span class="accent">looked up</span></h1>
+  <p class="hero-sub">Vintage-badge tees, playful planet buddies, and bold wish-upon-a-star art — StarGazing dresses the whole sky-watching family, from age 5 to the backyard telescope crowd.</p>
+  <div class="cta-row">
+    <button class="btn">Shop Little Explorers</button>
+    <button class="btn alt">Shop Astronomy Edition</button>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track mono">
+    <span>★ SATURN'S RINGS ARE MOSTLY ICE</span>
+    <span>★ A SHOOTING STAR IS ACTUALLY A METEOR</span>
+    <span>★ SUNLIGHT TAKES 8 MINUTES TO REACH EARTH</span>
+    <span>★ THE MOON IS DRIFTING AWAY, SLOWLY</span>
+    <span>★ SATURN'S RINGS ARE MOSTLY ICE</span>
+    <span>★ A SHOOTING STAR IS ACTUALLY A METEOR</span>
+    <span>★ SUNLIGHT TAKES 8 MINUTES TO REACH EARTH</span>
+    <span>★ THE MOON IS DRIFTING AWAY, SLOWLY</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-label">THREE COLLECTIONS, ONE SKY</div>
+    <div class="section-title display">Shop the drops</div>
+  </div>
+
+  <div class="collection col-astronomy" id="astronomy">
+    <div class="collection-tag"><span class="dot" style="background:var(--gold);"></span>Astronomy Edition — vintage badge, for the telescope crowd</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-visual">
+          <svg width="65%" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="38" ry="10" fill="none" stroke="#1f7a72" stroke-width="2.5" transform="rotate(-16 50 50)"/><circle cx="50" cy="50" r="22" fill="#f2b632"/></svg>
+        </div>
+        <div class="card-name">Saturn Wish Tee</div>
+        <div class="card-meta"><span>Stippled print</span><span class="card-price">R450</span></div>
+      </div>
+      <div class="card">
+        <div class="card-visual">
+          <svg width="65%" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#f2b632" stroke-width="2"/><path d="M20 50 L80 50 M50 20 L50 80" stroke="#1f7a72" stroke-width="1.5"/></svg>
+        </div>
+        <div class="card-name">Orbit Line Tee</div>
+        <div class="card-meta"><span>Stippled print</span><span class="card-price">R450</span></div>
+      </div>
+      <div class="card">
+        <div class="card-visual">
+          <svg width="60%" viewBox="0 0 100 100"><rect x="15" y="42" width="55" height="10" rx="5" fill="none" stroke="#f2b632" stroke-width="2"/><line x1="70" y1="47" x2="85" y2="47" stroke="#f2b632" stroke-width="2"/><line x1="42" y1="52" x2="35" y2="75" stroke="#1f7a72" stroke-width="2"/><line x1="55" y1="52" x2="62" y2="75" stroke="#1f7a72" stroke-width="2"/></svg>
+        </div>
+        <div class="card-name">Telescope Patch Cap</div>
+        <div class="card-meta"><span>Embroidered patch</span><span class="card-price">R320</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="collection col-kids" id="kids">
+    <div class="collection-tag"><span class="dot" style="background:#ff3ea5;"></span>Little Explorers — bright, silly, for the kids</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-visual">
+          <svg width="60%" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="#ff9d1f"/><rect x="30" y="42" width="40" height="12" rx="6" fill="#0d0e1a"/><path d="M35 68 Q50 76 65 68" stroke="#0d0e1a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-name">Space Buddies Tee (Kids)</div>
+        <div class="card-meta"><span>Soft cotton</span><span class="card-price">R280</span></div>
+      </div>
+      <div class="card">
+        <div class="card-visual">
+          <svg width="60%" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="#00c2ff"/><ellipse cx="50" cy="50" rx="42" ry="10" fill="none" stroke="#ff3ea5" stroke-width="4" transform="rotate(-12 50 50)"/><rect x="32" y="44" width="36" height="10" rx="5" fill="#0d0e1a"/></svg>
+        </div>
+        <div class="card-name">Cool Planet Hoodie (Kids)</div>
+        <div class="card-meta"><span>Fleece</span><span class="card-price">R520</span></div>
+      </div>
+      <div class="card">
+        <div class="card-visual">
+          <svg width="55%" viewBox="0 0 100 100"><circle cx="50" cy="35" r="18" fill="#8b5cf6"/><rect x="20" y="55" width="60" height="35" rx="10" fill="#8b5cf6" opacity="0.7"/></svg>
+        </div>
+        <div class="card-name">Moonwalker Onesie (Kids)</div>
+        <div class="card-meta"><span>Soft cotton</span><span class="card-price">R310</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="collection col-wish" id="wish">
+    <div class="collection-tag"><span class="dot" style="background:var(--rust);"></span>Wish Edition — bold statement art</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-visual">
+          <svg width="60%" viewBox="0 0 100 100"><circle cx="50" cy="45" r="24" fill="none" stroke="#e0502a" stroke-width="2.5"/><circle cx="50" cy="45" r="10" fill="#1f7a72"/><path d="M20 45 L80 45" stroke="#e0502a" stroke-width="6" opacity="0.8"/><path d="M40 70 L40 85 M50 70 L50 88 M60 70 L60 85" stroke="#e0502a" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-name">Make A Wish Tee</div>
+        <div class="card-meta"><span>Statement print</span><span class="card-price">R495</span></div>
+      </div>
+      <div class="card">
+        <div class="card-visual">
+          <svg width="55%" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="30" ry="18" fill="none" stroke="#1f7a72" stroke-width="2.5"/><circle cx="50" cy="50" r="9" fill="#e0502a"/><path d="M20 50 L80 50" stroke="#e0502a" stroke-width="5"/></svg>
+        </div>
+        <div class="card-name">Eye of Saturn Tee</div>
+        <div class="card-meta"><span>Statement print</span><span class="card-price">R495</span></div>
+      </div>
+      <div class="card">
+        <div class="card-visual">
+          <svg width="60%" viewBox="0 0 100 100"><ellipse cx="50" cy="45" rx="34" ry="10" fill="none" stroke="#e0502a" stroke-width="3" transform="rotate(-10 50 45)"/><circle cx="50" cy="45" r="20" fill="#1f7a72" opacity="0.85"/><path d="M35 65 L35 82 M50 68 L50 88 M65 65 L65 82" stroke="#e0502a" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="card-name">Drip Orbit Crew</div>
+        <div class="card-meta"><span>Statement print</span><span class="card-price">R650</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="starfield-section">
+  <div class="section-label">MAKE A WISH</div>
+  <div class="section-title display">Tap a star</div>
+  <p class="section-sub">Every star here has something true hiding in it. Tap one.</p>
+
+  <div class="starfield" id="starfield">
+    <button class="wish-star" style="top:10%; left:15%;" aria-label="Wish on a star" data-fact="Saturn's rings are mostly ice and rock — some pieces no bigger than a grain of dust.">
+      <svg viewBox="0 0 24 24"><path d="M12 1 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 Z" fill="currentColor"/></svg>
+    </button>
+    <button class="wish-star" style="top:35%; left:70%;" aria-label="Wish on a star" data-fact="A shooting star isn't a star at all — it's a tiny piece of space rock burning up in our sky.">
+      <svg viewBox="0 0 24 24"><path d="M12 1 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 Z" fill="currentColor"/></svg>
+    </button>
+    <button class="wish-star" style="top:60%; left:25%;" aria-label="Wish on a star" data-fact="Sunlight takes about 8 minutes to travel from the Sun to your eyes.">
+      <svg viewBox="0 0 24 24"><path d="M12 1 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 Z" fill="currentColor"/></svg>
+    </button>
+    <button class="wish-star" style="top:15%; left:50%;" aria-label="Wish on a star" data-fact="There are more stars in the universe than grains of sand on every beach on Earth.">
+      <svg viewBox="0 0 24 24"><path d="M12 1 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 Z" fill="currentColor"/></svg>
+    </button>
+    <button class="wish-star" style="top:75%; left:60%;" aria-label="Wish on a star" data-fact="The Moon drifts about 3.8 cm farther from Earth every year.">
+      <svg viewBox="0 0 24 24"><path d="M12 1 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 Z" fill="currentColor"/></svg>
+    </button>
+    <button class="wish-star" style="top:45%; left:88%;" aria-label="Wish on a star" data-fact="Saturn is so light for its size it would float in a bathtub big enough to hold it.">
+      <svg viewBox="0 0 24 24"><path d="M12 1 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 Z" fill="currentColor"/></svg>
+    </button>
+  </div>
+  <p class="wish-fact mono" id="wishFact" aria-live="polite"></p>
+</section>
+
+<section class="split">
+  <div>
+    <div class="section-label">FROM THE FOUNDER</div>
+    <h2 class="split-title">For dreamers who <span class="accent">count</span> stars, and dreamers who <span class="accent">name</span> them.</h2>
+    <p>StarGazing started with two kinds of people: kids pointing at the first star of the night, and the astronomy nerds who could tell them exactly what it was. Turns out they wanted the same thing — a reason to keep looking up.</p>
+    <p>Every drop carries a little bit of both: the wonder, and the wish.</p>
+  </div>
+  <div>
+    <svg viewBox="0 0 400 300" width="100%">
+      <circle cx="150" cy="150" r="70" fill="none" stroke="#1f7a72" stroke-width="1.5" opacity="0.5"/>
+      <ellipse cx="150" cy="150" rx="100" ry="26" fill="none" stroke="#f2b632" stroke-width="3" transform="rotate(-14 150 150)"/>
+      <circle cx="150" cy="150" r="48" fill="#f2b632"/>
+      <path d="M280 60 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 Z" fill="#f5efe0"/>
+      <path d="M330 200 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 Z" fill="#e0502a"/>
+    </svg>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="none" stroke="#f2b632" stroke-width="2"/><ellipse cx="30" cy="30" rx="24" ry="8" fill="none" stroke="#1f7a72" stroke-width="1.5" transform="rotate(-14 30 30)"/><circle cx="30" cy="30" r="10" fill="#f2b632"/></svg>
+      <span>STARGAZING</span>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <a href="#astronomy">Astronomy Edition</a>
+        <a href="#kids">Little Explorers</a>
+        <a href="#wish">Wish Edition</a>
+      </div>
+      <div class="foot-col">
+        <h4>BRAND</h4>
+        <a href="#">Our Story</a>
+        <a href="#">Make A Wish</a>
+      </div>
+      <div class="foot-col">
+        <h4>FOLLOW</h4>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 STARGAZING · SOUTH AFRICA</span>
+    <span>MAKE A WISH</span>
+  </div>
+</footer>
+
+<script>
+  // Night sky — twinkling stars + shooting stars, in the spirit of the original site
+  (function(){
+    const sky = document.getElementById('nightSky');
+    const starCount = 70;
+    for(let i=0;i<starCount;i++){
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random()*2 + 1;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.top = Math.random()*100 + '%';
+      s.style.left = Math.random()*100 + '%';
+      s.style.animationDelay = (Math.random()*3.6) + 's';
+      sky.appendChild(s);
+    }
+    const shootCount = 6;
+    for(let i=0;i<shootCount;i++){
+      const s = document.createElement('div');
+      s.className = 'shooting-star';
+      s.style.width = (60 + Math.random()*60) + 'px';
+      s.style.top = (Math.random()*55) + '%';
+      s.style.left = (55 + Math.random()*40) + '%';
+      s.style.animationDelay = (Math.random()*8) + 's';
+      s.style.animationDuration = (4 + Math.random()*3) + 's';
+      sky.appendChild(s);
+    }
+  })();
+
+  const factEl = document.getElementById('wishFact');
+  document.querySelectorAll('.wish-star').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      factEl.textContent = btn.dataset.fact;
+      factEl.classList.remove('show');
+      void factEl.offsetWidth;
+      factEl.classList.add('show');
+    });
+  });
+</script>
+
+</body>
+</html>

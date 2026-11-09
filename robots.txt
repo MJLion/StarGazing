@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Cart, checkout and 404 pages are kept out of search results with a
+# <meta name="robots" content="noindex"> tag instead of being blocked here.
+# Blocking them here would stop search engines from ever seeing that tag.
+
+Sitemap: https://www.stargazingshop.co.za/sitemap.xml

@@ -1,0 +1,25 @@
+{
+  "name": "stargazing-ecommerce",
+  "version": "1.0.0",
+  "description": "StarGazing e-commerce static site",
+  "scripts": {
+    "test": "jest --runInBand",
+    "serve": "firebase emulators:start --only hosting",
+    "deploy": "firebase deploy --only hosting"
+  },
+  "devDependencies": {
+    "fast-check": "^3.22.0",
+    "firebase-tools": "^15.35.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.4.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
+  },
+  "dependencies": {
+    "firebase": "^13.2.0"
+  }
+}

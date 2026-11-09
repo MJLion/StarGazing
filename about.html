@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StarGazing – About</title>
+  <meta name="description" content="The story behind StarGazing, a South African clothing brand for everyone who looks up, from first-time wishers to seasoned astronomers.">
+  <link rel="canonical" href="https://www.stargazingshop.co.za/about.html">
+  <meta property="og:url" content="https://www.stargazingshop.co.za/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="StarGazing">
+  <meta property="og:title" content="Our Story – StarGazing">
+  <meta property="og:description" content="The story behind StarGazing, a South African clothing brand for everyone who looks up, from first-time wishers to seasoned astronomers.">
+  <meta property="og:image" content="https://www.stargazingshop.co.za/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_ZA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Our Story – StarGazing">
+  <meta name="twitter:description" content="The story behind StarGazing, a South African clothing brand for everyone who looks up, from first-time wishers to seasoned astronomers.">
+  <meta name="twitter:image" content="https://www.stargazingshop.co.za/images/og-image.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── About page hero ── */
+    .about-hero {
+      position: relative;
+      padding: 160px 5vw 80px;
+      background: rgba(7, 7, 15, 0.35);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(31, 122, 114, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 20% 20%, rgba(242, 182, 50, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .about-hero-badge {
+      margin: 0 auto 32px;
+      opacity: 0.9;
+    }
+
+    .about-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      color: var(--cream);
+      line-height: 1.1;
+      max-width: 760px;
+      margin: 0 auto 20px;
+    }
+
+    .about-hero h1 .accent {
+      color: var(--gold);
+    }
+
+    .about-hero p.lead {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--dim);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ── Audience split cards ── */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 56px;
+    }
+
+    .audience-card {
+      border-radius: 20px;
+      padding: 40px 36px;
+      border: 1px solid rgba(245, 239, 224, 0.08);
+      background: rgba(245, 239, 224, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .audience-card.card-wish {
+      border-color: rgba(224, 80, 42, 0.2);
+      background: rgba(224, 80, 42, 0.04);
+    }
+
+    .audience-card.card-astronomy {
+      border-color: rgba(242, 182, 50, 0.18);
+      background: rgba(31, 122, 114, 0.05);
+    }
+
+    .audience-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    .audience-card h3 {
+      font-size: 1.4rem;
+      color: var(--cream);
+      line-height: 1.2;
+    }
+
+    .audience-card.card-wish h3 { color: var(--rust); }
+    .audience-card.card-astronomy h3 { color: var(--gold); }
+
+    .audience-card p {
+      color: var(--dim);
+      line-height: 1.75;
+    }
+
+    /* ── Brand narrative section ── */
+    .about-narrative {
+      background: rgba(13, 14, 26, 0.3);
+    }
+
+    .narrative-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .narrative-inner h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--cream);
+      margin-bottom: 28px;
+    }
+
+    .narrative-inner p {
+      color: var(--dim);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+    }
+
+    .narrative-inner p:last-child {
+      margin-bottom: 0;
+    }
+
+    .narrative-inner .highlight {
+      color: var(--cream);
+      font-weight: 700;
+    }
+
+    /* ── Collections callout strip ── */
+    .collections-strip {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .collections-strip a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1.5px solid;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .collections-strip a.link-astronomy {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .collections-strip a.link-astronomy:hover {
+      background: var(--gold);
+      color: var(--void-deep);
+    }
+
+    .collections-strip a.link-kids {
+      border-color: #ff3ea5;
+      color: #ff3ea5;
+    }
+
+    .collections-strip a.link-kids:hover {
+      background: #ff3ea5;
+      color: var(--void-deep);
+    }
+
+    .collections-strip a.link-wish {
+      border-color: var(--rust);
+      color: var(--rust);
+    }
+
+    .collections-strip a.link-wish:hover {
+      background: var(--rust);
+      color: var(--void-deep);
+    }
+
+    /* ── Founder / mission section ── */
+    .founder-section {
+      background: rgba(7, 7, 15, 0.35);
+    }
+
+    .founder-inner {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 80px;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .founder-text {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .founder-text h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--cream);
+    }
+
+    .founder-text p {
+      color: var(--dim);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .founder-quote {
+      margin: 8px 0;
+      padding: 24px 28px;
+      border-left: 3px solid var(--gold);
+      background: rgba(242, 182, 50, 0.05);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .founder-quote p {
+      color: var(--cream) !important;
+      font-size: 1.1rem !important;
+      font-style: italic;
+      line-height: 1.65 !important;
+    }
+
+    .founder-quote cite {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: var(--gold);
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Mission card */
+    .mission-card {
+      border: 1px solid rgba(31, 122, 114, 0.3);
+      border-radius: 20px;
+      padding: 40px 32px;
+      background: rgba(31, 122, 114, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mission-card h3 {
+      font-size: 1.1rem;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+    }
+
+    .mission-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mission-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--dim);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .mission-list li::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: 0.7rem;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .mission-cta {
+      margin-top: 8px;
+    }
+
+    /* ── Values strip ── */
+    .values-section {
+      background: rgba(13, 14, 26, 0.3);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .value-item {
+      padding: 32px 28px;
+      border-radius: 16px;
+      border: 1px solid rgba(245, 239, 224, 0.07);
+      background: rgba(245, 239, 224, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .value-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .value-item h4 {
+      font-size: 1rem;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .value-item p {
+      color: var(--dim);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    /* ── Footer styles: inherited from global style.css ── */
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .audience-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .founder-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-hero {
+        padding: 130px 5vw 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Global fixed night-sky starfield background (generated by main.js) -->
+  <div class="night-sky" id="nightSky"></div>
+
+  <!-- NAV -->
+  <nav aria-label="Main navigation">
+    <div class="nav-brand">
+      <a href="index.html">
+        <svg viewBox="0 0 60 60" width="38" height="38" aria-hidden="true">
+          <circle cx="30" cy="30" r="27" fill="none" stroke="#f2b632" stroke-width="2"/>
+          <ellipse cx="30" cy="30" rx="24" ry="8" fill="none" stroke="#1f7a72" stroke-width="1.5" transform="rotate(-14 30 30)"/>
+          <circle cx="30" cy="30" r="10" fill="#f2b632"/>
+        </svg>
+        <span class="display">STARGAZING</span>
+      </a>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="cart.html" class="cart-link">
+        Cart
+        <span class="cart-badge" id="cartBadge" aria-live="polite" aria-atomic="true"></span>
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════════════════
+         ABOUT HERO
+         ═══════════════════════════════════════════════════════ -->
+    <section class="about-hero">
+      <svg class="about-hero-badge" viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="#f2b632" stroke-width="2" stroke-dasharray="4 3"/>
+        <circle cx="60" cy="60" r="18" fill="#1a1b2e" stroke="#f2b632" stroke-width="1.5"/>
+        <ellipse cx="60" cy="60" rx="28" ry="9" fill="none" stroke="#1f7a72" stroke-width="2" transform="rotate(-14 60 60)"/>
+        <text x="60" y="110" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7" fill="#9a97b0">MAKE A WISH</text>
+        <text x="22" y="50" font-size="8" fill="#f2b632" text-anchor="middle">✦</text>
+        <text x="98" y="50" font-size="8" fill="#f2b632" text-anchor="middle">✦</text>
+      </svg>
+
+      <p class="section-label">Our Story</p>
+      <h1 class="display">We make clothes for <span class="accent">everyone who looks up</span></h1>
+      <p class="lead">Whether you're five and wishing on the brightest star in the sky, or fifty and tracing constellations with a telescope — this brand was made for you.</p>
+
+      <!-- Audience cards -->
+      <div class="audience-grid">
+        <div class="audience-card card-wish">
+          <span class="audience-icon" aria-hidden="true">⭐</span>
+          <h3 class="display">The Wishers</h3>
+          <p>For the kids who close their eyes at shooting stars. For the dreamers who still believe that pointing at the sky and making a wish is a perfectly reasonable thing to do. Our <strong>Little Explorers</strong> and <strong>Wish Edition</strong> collections are for you — bold, fun, and unapologetically hopeful.</p>
+        </div>
+        <div class="audience-card card-astronomy">
+          <span class="audience-icon" aria-hidden="true">🔭</span>
+          <h3 class="display">The Stargazers</h3>
+          <p>For the enthusiasts who know the difference between a nebula and a galaxy, who lose sleep over meteor showers, and who have strong opinions about which telescope mount is superior. The <strong>Astronomy Edition</strong> is yours — vintage badge-style designs that wear your passion with quiet precision.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         BRAND NARRATIVE
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section about-narrative">
+      <div class="section-head">
+        <p class="section-label mono">The Full Story</p>
+        <h2 class="display">Born under a South African sky</h2>
+      </div>
+      <div class="narrative-inner">
+        <p>
+          StarGazing started with a single moment that probably feels familiar: a kid outside at night, neck craned upward, asking a parent what that bright one is. The answer was Saturn. The kid didn't stop asking questions for weeks. That kid grew up, kept looking up, and eventually wanted to make clothes that captured that feeling.
+        </p>
+        <p>
+          We're a South African clothing brand, and the sky looks extraordinary from down here. On a clear night in the Karoo, the Milky Way hangs overhead like someone spilled light across the dark. That image — <span class="highlight">void navy-black, scattered with gold</span> — became the brand. It's the colour of our packaging, our website, and the lining of every hoodie we make.
+        </p>
+        <p>
+          There are two kinds of people who look up. The first kind makes a wish. They don't necessarily know what the bright object is — they just know it's beautiful and that pointing at it and hoping feels important. We made the <strong>Wish Edition</strong> for them. Bold statement art. Designs that say: <em>I believe in something bigger than this moment.</em>
+        </p>
+        <p>
+          The second kind brings a red-light torch and a star chart. They know exactly what they're looking at. They've memorised Messier objects and can name the moons of Jupiter from memory. The <strong>Astronomy Edition</strong> is for them — vintage badge-style graphics, muted palette, the kind of design that earns a compliment from someone who actually knows what a transit of Mercury is.
+        </p>
+        <p>
+          And then there's the <strong>Little Explorers</strong> collection — because the most important people looking up are the ones who haven't learned to stop yet. Kids deserve clothes that match their sense of wonder: cartoonish, bold, a little bit rocket-fuelled.
+        </p>
+
+        <div class="collections-strip">
+          <a href="shop.html?collection=astronomy" class="link-astronomy mono">🔭 Astronomy Edition</a>
+          <a href="shop.html?collection=kids" class="link-kids mono">🚀 Little Explorers</a>
+          <a href="shop.html?collection=wish" class="link-wish mono">⭐ Wish Edition</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FOUNDER NOTE / MISSION
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section founder-section">
+      <div class="section-head">
+        <p class="section-label mono">Founder's Note</p>
+        <h2 class="display">Why we exist</h2>
+      </div>
+      <div class="founder-inner">
+        <div class="founder-text">
+          <p>
+            I started StarGazing because I couldn't find a clothing brand that took astronomy seriously as an aesthetic — one that wasn't either too kitschy or too scientific. I wanted something that felt like standing outside at 2am watching a meteor shower: a little wonder, a little cold, completely worth it.
+          </p>
+
+          <blockquote class="founder-quote">
+            <p>"The universe doesn't care whether you've memorised the HR diagram or whether you just think stars are pretty. Both are completely valid reasons to look up. StarGazing is for both."</p>
+            <cite>— Founder, StarGazing</cite>
+          </blockquote>
+
+          <p>
+            We're a small operation. Every design goes through more rounds of feedback than feels strictly necessary. The badge graphic on our logo took three weeks and forty-something iterations. We're not trying to be the biggest cosmic brand — we're trying to be the most considered one.
+          </p>
+          <p>
+            All products are printed on quality blanks, ethically sourced. We ship across South Africa and believe the best way to build a brand is one good product at a time.
+          </p>
+        </div>
+
+        <aside class="mission-card" aria-label="Our mission">
+          <h3 class="display section-label">Our Mission</h3>
+          <ul class="mission-list">
+            <li>Make clothes that feel like looking up — for every age and every kind of stargazer.</li>
+            <li>Bridge the gap between wonder and knowledge, between dreamers and scientists.</li>
+            <li>Design with intention: every graphic, every colourway, every thread count considered.</li>
+            <li>Keep it South African — proudly made here, for a sky we know well.</li>
+            <li>Remind people that curiosity about the universe is always worth celebrating.</li>
+          </ul>
+          <div class="mission-cta">
+            <a href="shop.html" class="btn">Shop All Collections</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         VALUES STRIP
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section values-section">
+      <div class="section-head">
+        <p class="section-label mono">What we stand for</p>
+        <h2 class="display">Three things we believe</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-item">
+          <span class="value-icon" aria-hidden="true">✦</span>
+          <h4 class="mono">Wonder is for everyone</h4>
+          <p>You don't need a telescope or a PhD to feel the scale of the universe. You just need to look up on a clear night and let yourself feel small for a moment.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-icon" aria-hidden="true">🪐</span>
+          <h4 class="mono">Design should earn its place</h4>
+          <p>Every graphic we make has a reason for existing. We don't put a planet on a shirt because planets are trending. We do it because that particular design says something worth saying.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-icon" aria-hidden="true">🌙</span>
+          <h4 class="mono">Kids are our best customers</h4>
+          <p>Not because they spend the most money — they don't — but because they haven't learned to be embarrassed about loving space yet. We want to keep that going as long as possible.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg viewBox="0 0 60 60" width="32" height="32" aria-hidden="true">
+          <circle cx="30" cy="30" r="27" fill="none" stroke="#f2b632" stroke-width="2"/>
+          <ellipse cx="30" cy="30" rx="24" ry="8" fill="none" stroke="#1f7a72" stroke-width="1.5" transform="rotate(-14 30 30)"/>
+          <circle cx="30" cy="30" r="10" fill="#f2b632"/>
+        </svg>
+        <span class="display">STARGAZING</span>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4 class="mono">Shop</h4>
+          <a href="shop.html?collection=astronomy">Astronomy Edition</a>
+          <a href="shop.html?collection=kids">Little Explorers</a>
+          <a href="shop.html?collection=wish">Wish Edition</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="mono">Brand</h4>
+          <a href="about.html">About Us</a>
+          <a href="index.html">Home</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="mono">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Twitter</a>
+        </div>
+      </div>
+      <p class="footer-copy mono">&copy; <span class="footer-year">2026</span> StarGazing. Make a Wish.</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
