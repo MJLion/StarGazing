@@ -387,25 +387,38 @@ nav {
 .hamburger {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
-  width: 28px;
-  height: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
+  margin-right: -8px;
+  flex-shrink: 0;
 }
 
 .hamburger span {
   display: block;
-  width: 28px;
+  width: 24px;
   height: 2px;
   background: var(--cream);
   border-radius: 2px;
   transition: transform 0.2s, opacity 0.2s;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ------------------------------------------------------------
@@ -505,24 +518,30 @@ nav {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  nav {
+    padding: 14px 5vw;
+  }
+
   .nav-links {
     display: none;
     position: fixed;
-    top: 70px;
+    top: 62px;
     left: 0;
     right: 0;
     background: rgba(13, 14, 26, 0.96);
     backdrop-filter: blur(10px);
-    padding: 24px 5vw;
+    padding: 8px 5vw 16px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 0;
     border-bottom: 1px solid rgba(245, 239, 224, 0.1);
+    max-height: calc(100vh - 62px);
+    overflow-y: auto;
   }
 
   .nav-links a {
     width: 100%;
-    padding: 14px 0;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(245, 239, 224, 0.06);
     font-size: 15px;
   }
@@ -539,6 +558,24 @@ nav {
 @media (max-width: 560px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  nav {
+    padding: 12px 4vw;
+  }
+
+  .nav-brand span {
+    font-size: 14px;
+  }
+
+  .nav-brand svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-links {
+    top: 56px;
+    max-height: calc(100vh - 56px);
   }
 }
 
