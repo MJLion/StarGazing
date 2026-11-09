@@ -90,7 +90,7 @@ beforeEach(function() {
   global.location = { href: '', search: '' };
 
   // Real PRODUCTS catalog
-  global.PRODUCTS = require('../js/products.js').PRODUCTS;
+  global.PRODUCTS = require('../public/js/products.js').PRODUCTS;
 
   // Mock CartManager
   global.CartManager = {
@@ -117,7 +117,7 @@ afterEach(function() {
 function loadModuleWithProduct(productId) {
   global.location = { href: '', search: '?id=' + productId };
 
-  var mod = require('../js/product.js');
+  var mod = require('../public/js/product.js');
 
   // Fire DOMContentLoaded so the module sets its own `product` var
   // and wires renderProduct / wireQtyStepper / wireAddToCart.
@@ -139,7 +139,7 @@ describe('Task 9.4 – Product page unit tests', function() {
     test('sets location.href to "404.html" when id is not in PRODUCTS', function() {
       global.location = { href: '', search: '?id=nonexistent' };
 
-      require('../js/product.js');
+      require('../public/js/product.js');
       global.document._triggerEvent('DOMContentLoaded');
 
       expect(global.location.href).toBe('404.html');
@@ -148,7 +148,7 @@ describe('Task 9.4 – Product page unit tests', function() {
     test('sets location.href to "404.html" when ?id= param is missing', function() {
       global.location = { href: '', search: '' };
 
-      require('../js/product.js');
+      require('../public/js/product.js');
       global.document._triggerEvent('DOMContentLoaded');
 
       expect(global.location.href).toBe('404.html');

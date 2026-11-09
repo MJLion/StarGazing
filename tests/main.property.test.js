@@ -44,7 +44,7 @@ global.window = {
 };
 
 // Now it is safe to load main.js.
-const { generateNightSky } = require('../js/main.js');
+const { generateNightSky } = require('../public/js/main.js');
 
 // ── Per-run DOM helper ─────────────────────────────────────────────────────
 

@@ -137,7 +137,7 @@ function loadCheckout(env) {
   global.CartManager  = env.cartManager;
 
   jest.resetModules();
-  require('../js/checkout.js');
+  require('../public/js/checkout.js');
 
   env.fireDCL();
 }

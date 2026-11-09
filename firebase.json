@@ -1,27 +1,14 @@
 {
   "hosting": {
-    "public": ".",
+    "public": "public",
     "ignore": [
-      "firebase.json",
       "**/.*",
       "**/.*/**",
-      ".git/**",
-      ".vscode/**",
-      ".firebase/**",
-      ".kiro/**",
-      "functions/**",
-      "firestore.rules",
-      "firestore.indexes.json",
-      "README.md",
-      "**/*.log",
       "**/node_modules/**",
-      "tests/**",
-      "package.json",
-      "package-lock.json",
-      "stargazing-mockup-v3.html",
       "**/*.md",
+      "images/**/*.txt",
       "**/*.pdf",
-      "images/products/README.txt"
+      "**/*.log"
     ],
     "headers": [
       {

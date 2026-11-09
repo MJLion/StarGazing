@@ -4,7 +4,7 @@
 'use strict';
 
 const fc = require('fast-check');
-const { PRODUCTS } = require('../js/products.js');
+const { PRODUCTS } = require('../public/js/products.js');
 
 const VALID_COLLECTIONS = ['astronomy', 'kids', 'wish'];
 const REQUIRED_STRING_FIELDS = ['id', 'name', 'collection', 'description', 'material'];

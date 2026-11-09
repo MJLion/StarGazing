@@ -151,7 +151,7 @@ beforeEach(function () {
   });
 
   jest.resetModules();
-  CartManager = require('../js/cart.js').CartManager;
+  CartManager = require('../public/js/cart.js').CartManager;
   document.body.innerHTML = '<div id="cartContent"></div>';
 });
 

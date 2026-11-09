@@ -24,6 +24,8 @@ You are a senior frontend web developer and UI/UX designer specialising in e-com
 
 Static front-end, vanilla HTML5 / CSS3 / JavaScript. No frameworks, no bundler, no backend. `localStorage` holds the cart.
 
+**Layout:** every deployed file lives in `public/` (Firebase Hosting serves only that folder). Paths below are relative to `public/`. Never put private files (DNS exports, keys, notes) in `public/`; keep them at the repo root.
+
 **Pages:** `index.html` (home), `shop.html` (grid, collection filters, sort, reads `?collection=`), `product.html` (gallery, colour swatches, size selector, qty stepper, add to cart, reads `?id=`), `cart.html`, `checkout.html`, `checkout-success.html`, `about.html`, `404.html`.
 
 **JS (`js/`):** `products.js` (global `PRODUCTS` array + `resolveImagePath()`), `cart.js` (`CartManager` singleton, key `stargazing_cart`, line items keyed by `productId + color + size`), `main.js` (cart badge, hamburger, star-fact widget, night-sky generator), `shop.js`, `product.js`, `cart-page.js`, `checkout.js`.

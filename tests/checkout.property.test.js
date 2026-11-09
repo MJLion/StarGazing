@@ -20,7 +20,7 @@ global.CartManager = {
   clearCart: function () {}
 };
 
-var checkout = require('../js/checkout.js');
+var checkout = require('../public/js/checkout.js');
 
 describe('Property 6: Order Number Format', function () {
   test('generateOrderNumber() always returns a string matching /^ORD-[A-Z0-9]{8}$/', function () {

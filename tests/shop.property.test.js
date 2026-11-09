@@ -4,7 +4,7 @@
 'use strict';
 
 const fc = require('fast-check');
-const { PRODUCTS } = require('../js/products.js');
+const { PRODUCTS } = require('../public/js/products.js');
 
 // ── DOM stubs installed BEFORE requiring shop.js ───────────────────────────
 // shop.js runs document.addEventListener('DOMContentLoaded', …) at the
@@ -23,7 +23,7 @@ global.window = {
 // Set PRODUCTS global so shop.js can reference it when loaded in Node
 global.PRODUCTS = PRODUCTS;
 
-const { getFilteredSortedProducts } = require('../js/shop.js');
+const { getFilteredSortedProducts } = require('../public/js/shop.js');
 
 const VALID_COLLECTIONS = ['astronomy', 'kids', 'wish'];
 

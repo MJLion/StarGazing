@@ -30,7 +30,7 @@ function makeBlockedLocalStorageMock() {
 function loadFreshCartManager(lsMock) {
   global.localStorage = lsMock;
   jest.resetModules();
-  const { CartManager } = require('../js/cart.js');
+  const { CartManager } = require('../public/js/cart.js');
   return CartManager;
 }
 
