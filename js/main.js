@@ -82,12 +82,62 @@ document.addEventListener('DOMContentLoaded', function () {
   // ── 8. Page load fade-in ───────────────────────────────────────────────────
   document.body.classList.add('page-loaded');
 
+  // ── 8b. Cosmic loader (asteroid fly-by, hidden once assets finish loading) ─
+  initCosmicLoader();
+
   // ── 9. Footer copyright year (keeps the © year current) ────────────────────
   var yearEls = document.querySelectorAll('.footer-year');
   var thisYear = String(new Date().getFullYear());
   yearEls.forEach(function (el) { el.textContent = thisYear; });
 
 });
+
+// ─── Cosmic Loader ────────────────────────────────────────────────────────────
+
+/**
+ * initCosmicLoader — shows the #cosmicLoader asteroid overlay only while
+ * page assets are still loading. The overlay is hidden by default (CSS);
+ * it is revealed only if window "load" hasn't fired SHOW_DELAY_MS after
+ * navigation started, so fast/cached loads never flash it. As soon as
+ * "load" fires the overlay fades out. A safety timeout hides it anyway
+ * if a hung request keeps "load" from firing.
+ * Safe to call when #cosmicLoader is absent (returns early).
+ */
+function initCosmicLoader() {
+  var loader = document.getElementById('cosmicLoader');
+  if (!loader) return;
+
+  var SHOW_DELAY_MS = 300;  // don't show for loads faster than this
+  var MAX_WAIT_MS = 8000;   // safety net for hung/blocked assets
+  var FADE_MS = 400;        // matches .cosmic-loader opacity transition
+
+  var loaded = false;
+  var showTimer = null;
+
+  // Already loaded (e.g. restored from cache) — nothing to show
+  if (document.readyState === 'complete') return;
+
+  var hideLoader = function () {
+    if (loaded) return;
+    loaded = true;
+    clearTimeout(showTimer);
+    if (!loader.classList.contains('loader-active')) return; // never shown
+
+    loader.classList.add('loader-hidden'); // also pauses all loader animations
+    setTimeout(function () {
+      loader.classList.remove('loader-active');
+    }, FADE_MS);
+  };
+
+  // Measure from navigation start, not from when this script ran
+  var sinceNav = (window.performance && performance.now) ? performance.now() : 0;
+  showTimer = setTimeout(function () {
+    if (!loaded) loader.classList.add('loader-active');
+  }, Math.max(0, SHOW_DELAY_MS - sinceNav));
+
+  window.addEventListener('load', hideLoader);
+  setTimeout(hideLoader, MAX_WAIT_MS);
+}
 
 // ─── Night-Sky Generator ──────────────────────────────────────────────────────
 

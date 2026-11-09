@@ -1731,9 +1731,13 @@ body.page-loaded {
   animation: page-fade-in 0.5s ease both;
 }
 
+/* Opacity only: a transform on <body> (even translateY(0), which the
+   "both" fill-mode keeps applied) turns body into the containing block
+   for position:fixed children, so the night sky and cosmic loader would
+   stop being pinned to the viewport. */
 @keyframes page-fade-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ---- Scroll reveal ---- */
@@ -2096,4 +2100,173 @@ a, button {
   .cart-row:hover {
     transform: none;
   }
+}
+
+/* ============================================================
+   16. Cosmic Loader — Asteroid Impact Overlay
+   ------------------------------------------------------------
+   Full-screen loading layer, hidden by default. initCosmicLoader()
+   (main.js) adds .loader-active only if assets are still loading
+   after a short delay, and fades it out as soon as window "load"
+   fires. The asteroid starts as a distant speck and rushes head-on
+   into the camera, ending in an impact flash, repeating every 1.2s.
+   All three animations below share the 1.2s duration; keep them in sync.
+
+   Only transform and opacity are animated, so everything stays on
+   the GPU compositor and doesn't tax mid-range phones. Sizes use
+   vmin so the rock scales with the shorter screen edge at every
+   breakpoint; the overlay is fixed + overflow:hidden, so the
+   scaled rock never affects page layout or causes scrollbars.
+   ============================================================ */
+
+.cosmic-loader {
+  position: fixed;
+  /* Pin all four edges to the viewport instead of a fixed 100vh height,
+     which doesn't match the visible area on mobile browsers */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--void-deep);
+  z-index: 9999;
+  display: none; /* hidden unless JS detects a slow load; no JS = no overlay */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+/* Switching from display:none starts the animations from frame 0 */
+.cosmic-loader.loader-active {
+  display: flex;
+}
+
+.cosmic-loader.loader-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Freeze every layer on its current frame while the overlay fades,
+   so a new cycle never restarts mid-fade */
+.cosmic-loader.loader-hidden::before,
+.cosmic-loader.loader-hidden::after,
+.cosmic-loader.loader-hidden .asteroid {
+  animation-play-state: paused;
+}
+
+/* Starfield rushing outward past the camera — sells forward motion.
+   Static dot gradients, animated via transform/opacity only. */
+.cosmic-loader::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, var(--cream), transparent),
+    radial-gradient(1px 1px at 70% 20%, var(--cream), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, var(--cream), transparent),
+    radial-gradient(1px 1px at 85% 65%, var(--cream), transparent),
+    radial-gradient(1px 1px at 10% 70%, var(--dim), transparent),
+    radial-gradient(1px 1px at 55% 50%, var(--dim), transparent);
+  background-size: 220px 220px;
+  will-change: transform, opacity;
+  animation: loaderStarRush 1.2s cubic-bezier(0.5, 0, 0.75, 0) infinite;
+  pointer-events: none;
+}
+
+/* Impact flash — radial burst layered above the rock. Cream core,
+   brand gold body, rust edge, expanding past the viewport edges. */
+.cosmic-loader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    var(--cream) 0%,
+    rgba(242, 182, 50, 0.9) 22%,
+    rgba(224, 80, 42, 0.45) 45%,
+    rgba(7, 7, 15, 0) 70%
+  );
+  opacity: 0;
+  transform: scale3d(0.2, 0.2, 1);
+  will-change: transform, opacity;
+  animation: loaderImpactFlash 1.2s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Asteroid core — organic, non-spherical rock, lit from the top-left.
+   Centred by the flex parent; all inner sizes are % so craters stay
+   proportional at any scale. */
+.asteroid {
+  --asteroid-size: 30vmin;
+  position: relative;
+  z-index: 1;
+  width: var(--asteroid-size);
+  height: calc(var(--asteroid-size) * 0.9);
+  background: radial-gradient(circle at 35% 30%, #6b6c75 0%, #4a4b53 45%, #2b2c32 100%);
+  border-radius: 42% 58% 37% 63% / 45% 45% 55% 55%;
+  box-shadow: inset -3vmin -3vmin 0 rgba(20, 20, 26, 0.55);
+  will-change: transform;
+  /* Strong ease-in: lingers far away, then rushes the camera at the end */
+  animation: asteroidImpact 1.2s cubic-bezier(0.5, 0, 0.75, 0) infinite;
+}
+
+.asteroid-crater {
+  position: absolute;
+  background: #25262b;
+  border-radius: 50%;
+  opacity: 0.7;
+  box-shadow: inset 0.4vmin 0.4vmin 0 rgba(0, 0, 0, 0.45);
+}
+.asteroid-crater.crater-1 { width: 20%; height: 14%; top: 20%; left: 24%; transform: rotate(-15deg); }
+.asteroid-crater.crater-2 { width: 13%; height: 18%; top: 52%; left: 50%; }
+.asteroid-crater.crater-3 { width: 10%; height: 11%; top: 27%; left: 68%; }
+
+/* Head-on approach: a distant speck slightly off-axis drifts to centre
+   while scaling up past the viewport. Only two keyframes, so the
+   cubic-bezier applies to the whole flight, not per segment. */
+@keyframes asteroidImpact {
+  0% {
+    transform: translate3d(-14vmin, -10vmin, 0) rotate(-20deg) scale3d(0.03, 0.03, 1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(160deg) scale3d(6, 6, 1);
+  }
+}
+
+@keyframes loaderStarRush {
+  0%   { transform: scale3d(1, 1, 1);     opacity: 0.7; }
+  100% { transform: scale3d(1.8, 1.8, 1); opacity: 0; }
+}
+
+/* Dark until the rock is close, bursts at ~92%, holds at full until the
+   cycle ends. */
+@keyframes loaderImpactFlash {
+  0%, 80% { opacity: 0; transform: scale3d(0.2, 0.2, 1); }
+  92%     { opacity: 1; transform: scale3d(1.4, 1.4, 1); }
+  100%    { opacity: 1; transform: scale3d(2, 2, 1); }
+}
+
+/* Tablet: shorter edge is usually the width, nudge the rock up a bit */
+@media (max-width: 900px) {
+  .asteroid { --asteroid-size: 34vmin; }
+}
+
+/* Phones (portrait): the rock needs more base size to fill the tall
+   screen at the end of the approach */
+@media (max-width: 560px) {
+  .asteroid { --asteroid-size: 40vmin; }
+}
+
+/* Reduced motion: no approach, no flash, no star rush. The rock sits
+   still in the centre as a static loading indicator. */
+@media (prefers-reduced-motion: reduce) {
+  .asteroid,
+  .cosmic-loader::before,
+  .cosmic-loader::after {
+    animation: none;
+  }
+
+  .asteroid { transform: none; }
+  .cosmic-loader::after { opacity: 0; }
 }
